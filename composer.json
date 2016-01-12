@@ -1,0 +1,22 @@
+{
+  "name": "mediawiki/sites",
+  "type": "library",
+  "description": "MediaWiki sites",
+  "repositories": [
+      {
+          "type": "git",
+          "url": "https://github.com/filbertkm/HttpLib.git"
+      }
+  ],
+  "require": {
+    "filbertkm/httplib": "dev-master",
+    "knplabs/console-service-provider": "~1.0",
+    "symfony/console": "~2.5",
+    "wikimedia/assert": "~0.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "MediaWiki\\Sites\\": "src"
+    }
+  }
+}
