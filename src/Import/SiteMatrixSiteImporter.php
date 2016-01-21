@@ -4,9 +4,14 @@ namespace MediaWiki\Sites\Import;
 
 use Filbertkm\Http\HttpClient;
 use MediaWiki\Sites\Site;
+use Symfony\Component\Yaml\Dumper;
 use Wikimedia\Assert\Assert;
 
 class SiteMatrixSiteImporter implements SiteImporter {
+
+	private $dumper;
+
+	private $httpClient;
 
 	private $siteMatrixUrl;
 
@@ -15,6 +20,8 @@ class SiteMatrixSiteImporter implements SiteImporter {
 	public function __construct( HttpClient $httpClient, $siteMatrixUrl, $outputFile ) {
 		Assert::parameterType( 'string', $siteMatrixUrl, '$siteMatrixUrl' );
 		Assert::parameterType( 'string', $outputFile, '$outputFile' );
+
+		$this->dumper = new Dumper();
 
 		$this->httpClient = $httpClient;
 		$this->siteMatrixUrl = $siteMatrixUrl;
@@ -31,14 +38,16 @@ class SiteMatrixSiteImporter implements SiteImporter {
 		unset( $rows['specials'] );
 		unset( $rows['count'] );
 
-		$sites = array_merge(
-			$this->extractSites( $rows ),
-			$this->extractSpecialSites( $specials )
+		$sites = array(
+			'sites' => array_merge(
+				$this->extractSites( $rows ),
+				$this->extractSpecialSites( $specials )
+			)
 		);
 
 		file_put_contents(
 			$this->outputFile,
-			json_encode( array( 'sites' => $sites ) )
+			$this->dumper->dump( $sites, 3 )
 		);
 	}
 

@@ -3,12 +3,13 @@
 namespace MediaWiki\Sites\Lookup;
 
 use MediaWiki\Sites\Site;
+use Symfony\Component\Yaml\Yaml;
 use Wikimedia\Assert\Assert;
 
 /**
  *
  */
-class JsonSiteLookup implements SiteLookup {
+class YamlSiteLookup implements SiteLookup {
 
 	private $sitesFile;
 
@@ -26,9 +27,7 @@ class JsonSiteLookup implements SiteLookup {
 	 * @return Site
 	 */
 	public function getSite( $siteId ) {
-		$json = file_get_contents( $this->sitesFile );
-
-		$data = json_decode( $json, true );
+		$data = Yaml::parse( file_get_contents( $this->sitesFile ) );
 
 		if ( !isset( $data['sites'][$siteId] ) ) {
 			throw new \InvalidArgumentException( '$siteId ' . $siteId . ' not found' );

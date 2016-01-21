@@ -12,6 +12,7 @@
     "filbertkm/httplib": "dev-master",
     "knplabs/console-service-provider": "~1.0",
     "symfony/console": "~2.5",
+    "symfony/yaml": "~2.5",
     "wikimedia/assert": "~0.2"
   },
   "autoload": {
